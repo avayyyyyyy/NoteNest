@@ -24,7 +24,12 @@ const getData = async (userID: string) => {
 const page = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-  const allNotes = await getData(user?.id as string);
+  let allNotes = await getData(user?.id as string);
+
+  if (allNotes === undefined) {
+    allNotes = [];
+  }
+
   async function deleteNote(formData: FormData) {
     "use server";
     const id = formData.get("noteId");
