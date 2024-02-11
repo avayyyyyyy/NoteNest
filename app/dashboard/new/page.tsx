@@ -33,8 +33,8 @@ const page = async () => {
     const created = await prisma?.note.create({
       data: {
         userId: user?.id,
-        title: title,
-        description: description,
+        title: title as string,
+        description: description as string,
       },
     });
 
