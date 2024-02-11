@@ -4,8 +4,8 @@ import { CheckCircle2 } from "lucide-react";
 import React from "react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { getStripeSession } from "@/app/lib/stripe";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import prisma from "@/app/lib/db";
 
 const getData = async (userId: string) => {
   const data = await prisma?.subscription.findUnique({

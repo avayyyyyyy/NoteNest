@@ -15,7 +15,7 @@ import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
 import React from "react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { revalidatePath } from "next/cache";
+import prisma from "@/app/lib/db";
 
 const findNote = async (id: string, userId: string) => {
   const note = await prisma?.note.findUnique({

@@ -4,9 +4,9 @@ import React from "react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Edit, File, Trash } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { redirect } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { revalidatePath } from "next/cache";
+import prisma from "../lib/db";
 
 const getData = async (userID: string) => {
   const data = await prisma?.note.findMany({
