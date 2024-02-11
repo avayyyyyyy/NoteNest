@@ -12,9 +12,14 @@ const findUser = async ({
 }: {
   id: string;
   name: string;
-  email: string;
+  email: string | null | undefined;
 }) => {
   try {
+    if (email == null) {
+      // Handle the case where email is null or undefined
+      throw new Error("Email is null or undefined");
+    }
+
     const existingUser = await prisma?.user.findUnique({
       where: {
         email: email,
