@@ -30,7 +30,7 @@ const page = async () => {
     const id = formData.get("noteId");
     const deleted = await prisma?.note.delete({
       where: {
-        id: id,
+        id: id as string,
         userId: user?.id,
       },
     });
