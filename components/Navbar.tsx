@@ -31,9 +31,9 @@ const Navbar = async () => {
               <Themetoggle />
               {(await isAuthenticated()) ? (
                 <UserNav
-                  name={user?.given_name}
-                  img={user?.picture}
-                  email={user?.email}
+                  name={user?.given_name as string}
+                  img={user?.picture as string}
+                  email={user?.email as string}
                 />
               ) : (
                 <>
