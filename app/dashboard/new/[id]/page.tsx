@@ -17,7 +17,7 @@ import React from "react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { revalidatePath } from "next/cache";
 
-const findNote = async (id, userId) => {
+const findNote = async (id: string, userId: string) => {
   const note = await prisma?.note.findUnique({
     where: {
       id: id,
@@ -33,11 +33,11 @@ const findNote = async (id, userId) => {
   return note;
 };
 
-const page = async ({ params }) => {
+const page = async ({ params }: any) => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  const note = await findNote(params.id, user?.id);
+  const note = await findNote(params.id, user?.id as string);
 
   const updateNote = async (formData: FormData) => {
     "use server";
