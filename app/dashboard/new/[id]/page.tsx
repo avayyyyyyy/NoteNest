@@ -51,8 +51,8 @@ const page = async ({ params }: any) => {
         userId: user?.id,
       },
       data: {
-        title: title,
-        description: description,
+        title: title as string,
+        description: description as string,
       },
     });
 
