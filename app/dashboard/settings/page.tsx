@@ -17,40 +17,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React from "react";
 import prisma from "@/app/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
 import SubmitButton from "@/components/SubmitButton";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 
-const page = async () => {
-  const findUser = async (email: string) => {
-    const user = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-      select: {
-        name: true,
-        email: true,
-        colorScheme: true,
-      },
-    });
+async function getData(userId: string) {
+  noStore();
+  const data = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      name: true,
+      email: true,
+      colorScheme: true,
+    },
+  });
 
-    return user;
-  };
+  return data;
+}
 
+export default async function SettingPage() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-  const email = user?.email;
-  const data = await findUser(email as string);
+  const data = await getData(user?.id as string);
 
-  const updateInfo = async (formData: FormData) => {
+  async function postData(formData: FormData) {
     "use server";
 
     const name = formData.get("name") as string;
     const colorScheme = formData.get("color") as string;
 
-    const updated = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: user?.id,
       },
@@ -61,24 +61,24 @@ const page = async () => {
     });
 
     revalidatePath("/", "layout");
-    return updated;
-  };
+  }
 
   return (
     <div className="grid items-start gap-8">
       <div className="flex items-center justify-between px-2">
-        <div>
-          <h1 className="text-3xl font-semibold md:text-4xl">Settings</h1>
-          <p className="text-lg text-muted-foreground">Your Profile Settings</p>
+        <div className="grid gap-1">
+          <h1 className="text-3xl md:text-4xl">Settings</h1>
+          <p className="text-lg text-muted-foreground">Your Profile settings</p>
         </div>
       </div>
+
       <Card>
-        <form action={updateInfo}>
+        <form action={postData}>
           <CardHeader>
             <CardTitle>General Data</CardTitle>
             <CardDescription>
-              Pleasee provide the following information about yourself & don't
-              forget to save it!
+              Please provide general information about yourself. Please dont
+              forget to save
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -86,11 +86,11 @@ const page = async () => {
               <div className="space-y-1">
                 <Label>Your Name</Label>
                 <Input
-                  defaultValue={data?.name ?? ""}
                   name="name"
                   type="text"
                   id="name"
                   placeholder="Your Name"
+                  defaultValue={data?.name ?? undefined}
                 />
               </div>
               <div className="space-y-1">
@@ -98,31 +98,36 @@ const page = async () => {
                 <Input
                   name="email"
                   type="email"
-                  defaultValue={data?.email ?? ""}
                   id="email"
                   placeholder="Your Email"
                   disabled
+                  defaultValue={data?.email as string}
                 />
               </div>
+
               <div className="space-y-1">
                 <Label>Color Scheme</Label>
-                <Select name="color" defaultValue={data?.colorScheme ?? ""}>
+                <Select name="color" defaultValue={data?.colorScheme}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Please select a color" />
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Colors</SelectLabel>
-                        <SelectItem value="theme-green">Green</SelectItem>
-                        <SelectItem value="theme-orange">Orange</SelectItem>
-                        <SelectItem value="theme-red">Red</SelectItem>
-                        <SelectItem value="theme-blue">Blue</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
+                    <SelectValue placeholder="Select a color" />
                   </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Color</SelectLabel>
+                      <SelectItem value="theme-green">Green</SelectItem>
+                      <SelectItem value="theme-blue">Blue</SelectItem>
+                      <SelectItem value="theme-violet">Violet</SelectItem>
+                      <SelectItem value="theme-yellow">Yellow</SelectItem>
+                      <SelectItem value="theme-orange">Orange</SelectItem>
+                      <SelectItem value="theme-red">Red</SelectItem>
+                      <SelectItem value="theme-rose">Rose</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
                 </Select>
               </div>
             </div>
           </CardContent>
+
           <CardFooter>
             <SubmitButton />
           </CardFooter>
@@ -130,6 +135,4 @@ const page = async () => {
       </Card>
     </div>
   );
-};
-
-export default page;
+}
