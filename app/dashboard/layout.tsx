@@ -1,94 +1,88 @@
+import { ReactNode } from "react";
 import DasboardNav from "@/components/DasboardNav";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
-import { ReactNode } from "react";
 import prisma from "../lib/db";
 import { stripe } from "../lib/stripe";
+import { unstable_noStore as noStore } from "next/cache";
 
-const findUser = async ({
-  id,
+async function getData({
   email,
-  name,
+  id,
+  firstName,
+  lastName,
+  profileImage,
 }: {
+  email: string;
   id: string;
-  name: string;
-  email: string | undefined | null;
-}) => {
-  try {
-    if (email === null || email === undefined) {
-      throw new Error("Email is null or undefined");
-    }
+  firstName: string | undefined | null;
+  lastName: string | undefined | null;
+  profileImage: string | undefined | null;
+}) {
+  noStore();
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      id: true,
+      stripeCustomerId: true,
+    },
+  });
 
-    const existingUser = await prisma?.user.findUnique({
+  if (!user) {
+    const name = `${firstName ?? ""} ${lastName ?? ""}`;
+    await prisma.user.create({
+      data: {
+        id: id,
+        email: email,
+        name: name,
+      },
+    });
+  }
+
+  if (!user?.stripeCustomerId) {
+    const data = await stripe.customers.create({
+      email: email,
+    });
+
+    await prisma.user.update({
       where: {
         id: id,
       },
-      select: { id: true, email: true, name: true, stripeCustomerId: true },
+      data: {
+        stripeCustomerId: data.id,
+      },
     });
-
-    if (!existingUser) {
-      // User not found, create a new user
-      const createdUser = await prisma.user.create({
-        data: {
-          id: id,
-          name: name,
-          email: email,
-        },
-      });
-
-      // Create a customer in Stripe and update the user with the Stripe Customer ID
-      const stripeCustomer = await stripe.customers.create({
-        email: email,
-      });
-
-      await prisma.user.update({
-        where: {
-          id: createdUser.id,
-        },
-        data: {
-          stripeCustomerId: stripeCustomer.id,
-        },
-      });
-    }
-  } catch (error) {
-    console.error("Error creating/updating user:", error);
-    throw error; // Rethrow the error to handle it later or log it appropriately
   }
-};
+}
 
 export default async function DashboardLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  try {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
-
-    if (user) {
-      const id = user.id;
-      const name = user.given_name + " " + user.family_name;
-      const email = user.email;
-
-      await findUser({ id, name, email });
-    } else {
-      // Redirect if user is not found
-      return redirect("/");
-    }
-
-    return (
-      <div className="flex flex-col space-y-6 mt-10">
-        <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
-          <aside className="hidden w-[200px] flex-col md:flex">
-            <DasboardNav />
-          </aside>
-          <main>{children}</main>
-        </div>
-      </div>
-    );
-  } catch (error) {
-    // Handle errors thrown during the process
-    console.error("Error in DashboardLayout:", error);
-    // You might want to redirect or render an error page here
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  if (!user) {
+    return redirect("/");
   }
+  await getData({
+    email: user.email as string,
+    firstName: user.given_name as string,
+    id: user.id as string,
+    lastName: user.family_name as string,
+    profileImage: user.picture,
+  });
+
+  return (
+    <div className="flex flex-col space-y-6 mt-10">
+      <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
+        <aside className="hidden w-[200px] flex-col md:flex">
+          <DasboardNav />
+        </aside>
+        <main>{children}</main>
+      </div>
+    </div>
+  );
 }

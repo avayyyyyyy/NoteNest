@@ -23,26 +23,26 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import SubmitButton from "@/components/SubmitButton";
 import { revalidatePath } from "next/cache";
 
-const findUser = async (userId: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-    select: {
-      name: true,
-      email: true,
-      colorScheme: true,
-    },
-  });
-
-  return user;
-};
-
 const page = async () => {
+  const findUser = async (email: string) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        name: true,
+        email: true,
+        colorScheme: true,
+      },
+    });
+
+    return user;
+  };
+
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-  const id = user?.id;
-  const data = await findUser(id as string);
+  const email = user?.email;
+  const data = await findUser(email as string);
 
   const updateInfo = async (formData: FormData) => {
     "use server";

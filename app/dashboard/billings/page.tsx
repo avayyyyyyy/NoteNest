@@ -7,23 +7,23 @@ import { getStripeSession } from "@/app/lib/stripe";
 import { revalidatePath } from "next/cache";
 import prisma from "@/app/lib/db";
 
-const getData = async (userId: string) => {
-  const data = await prisma?.subscription.findUnique({
-    where: {
-      userId: userId,
-    },
-    select: {
-      status: true,
-      user: {
-        select: {
-          stripeCustomerId: true,
-        },
-      },
-    },
-  });
+// const getData = async (userId: string) => {
+//   const data = await prisma?.subscription.findUnique({
+//     where: {
+//       userId: userId,
+//     },
+//     select: {
+//       status: true,
+//       user: {
+//         select: {
+//           stripeCustomerId: true,
+//         },
+//       },
+//     },
+//   });
 
-  return data;
-};
+//   return data;
+// };
 
 const page = async () => {
   const features = [
@@ -37,32 +37,32 @@ const page = async () => {
 
   const user = await getUser();
 
-  const data = await getData(user?.id as string);
+  // const data = await getData(user?.id as string);
 
-  const getSubscriptionSession = async () => {
-    "use server";
+  // const getSubscriptionSession = async () => {
+  //   "use server";
 
-    const dbUser = await prisma?.user.findUnique({
-      where: {
-        id: user?.id,
-      },
-      select: {
-        stripeCustomerId: true,
-      },
-    });
+  //   const dbUser = await prisma?.user.findUnique({
+  //     where: {
+  //       id: user?.id,
+  //     },
+  //     select: {
+  //       stripeCustomerId: true,
+  //     },
+  //   });
 
-    if (!dbUser?.stripeCustomerId) {
-      throw new Error("Unable to create payment");
-    }
+  //   if (!dbUser?.stripeCustomerId) {
+  //     throw new Error("Unable to create payment");
+  //   }
 
-    const subscriptionUrl = await getStripeSession({
-      customerID: dbUser.stripeCustomerId,
-      priceID: process.env.PRICE_ID as string,
-      domainURL: "http://localhost:3000",
-    });
+  //   const subscriptionUrl = await getStripeSession({
+  //     customerID: dbUser.stripeCustomerId,
+  //     priceID: process.env.PRICE_ID as string,
+  //     domainURL: "http://localhost:3000",
+  //   });
 
-    revalidatePath(subscriptionUrl);
-  };
+  //   revalidatePath(subscriptionUrl);
+  // };
 
   return (
     <div className="max-w-md mx-auto space-y-4">
@@ -93,7 +93,7 @@ const page = async () => {
               );
             })}
           </ul>
-          <form action={getSubscriptionSession}>
+          <form>
             <Button type="submit" className="w-full">
               Buy Now
             </Button>
