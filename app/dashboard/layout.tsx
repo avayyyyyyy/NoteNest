@@ -12,7 +12,7 @@ const findUser = async ({
 }: {
   id: string;
   name: string;
-  email: string | null | undefined;
+  email: string;
 }) => {
   try {
     if (email == null) {
@@ -71,7 +71,6 @@ export default async function DashboardLayout({
       const name = user.given_name + " " + user.family_name;
       const email = user.email;
 
-      // Call findUser with correct parameter syntax
       await findUser({ id, name, email });
     } else {
       // Redirect if user is not found
