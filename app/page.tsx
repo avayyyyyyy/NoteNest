@@ -17,7 +17,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="flex lg:h-auto mb-7 lg:overflow-y-hidden lg:overflow-hidden space-y-6 flex-col justify-center lg:flex lg: lg:mt-28 h-[90vh]  items-center">
+      <section className="flex lg:h-auto  lg:overflow-y-hidden lg:overflow-hidden space-y-6 flex-col justify-center lg:flex lg: lg:mt-28 h-[90vh]  items-center">
         <div className="px-4 text-xs lg:text-base py-2 rounded-full bg-secondary text-primary">
           Sort Your Notes Easily
         </div>
