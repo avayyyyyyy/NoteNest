@@ -34,12 +34,14 @@ export default async function Home() {
         <div className="flex space-x-3">
           <Link
             className="p-2 rounded-full bg-primary-foreground"
+            target="_blank"
             href={"https://github.com/avayyyyyyy/"}
           >
             <Github />
           </Link>
           <Link
             className="p-2 rounded-full bg-primary-foreground"
+            target="_blank"
             href={"https://www.linkedin.com/in/shubhcodes/"}
           >
             <Linkedin />
