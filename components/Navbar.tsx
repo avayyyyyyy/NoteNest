@@ -18,7 +18,7 @@ const Navbar = async () => {
   return (
     <header className="border-b-2 py-3 px-2">
       <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="block  font-bold text-3xl">
+        <Link href="/" className="block  font-bold text-2xl md:text-3xl">
           <span className="sr-only">Home</span>
           Abhi<span className="text-primary">Saas</span>
         </Link>
