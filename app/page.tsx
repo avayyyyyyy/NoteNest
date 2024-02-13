@@ -36,7 +36,7 @@ export default async function Home() {
           alt={"Home Page Image"}
           width={1000}
           height={1000}
-          src={"/hompage-cropped.png"}
+          src={"/hompage-cropped.webp"}
         />
       </div>
     </>
