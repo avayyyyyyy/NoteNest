@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Github, Linkedin } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -15,7 +17,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="flex lg:h-auto lg:my-20  lg:overflow-y-hidden lg:overflow-hidden space-y-6 flex-col justify-center lg:flex lg:justify-start lg:mt-32 h-[90vh]  items-center">
+      <section className="flex lg:h-auto mb-7 lg:overflow-y-hidden lg:overflow-hidden space-y-6 flex-col justify-center lg:flex lg: lg:mt-28 h-[90vh]  items-center">
         <div className="px-4 text-xs lg:text-base py-2 rounded-full bg-secondary text-primary">
           Sort Your Notes Easily
         </div>
@@ -29,6 +31,20 @@ export default async function Home() {
         <RegisterLink>
           <Button className="min-w-60">Get Started</Button>
         </RegisterLink>
+        <div className="flex space-x-3">
+          <Link
+            className="p-2 rounded-full bg-primary-foreground"
+            href={"https://github.com/avayyyyyyy/"}
+          >
+            <Github />
+          </Link>
+          <Link
+            className="p-2 rounded-full bg-primary-foreground"
+            href={"https://www.linkedin.com/in/shubhcodes/"}
+          >
+            <Linkedin />
+          </Link>
+        </div>
       </section>
       <div className="hidden rounded-t-lg lg:flex relative justify-center">
         <Image
