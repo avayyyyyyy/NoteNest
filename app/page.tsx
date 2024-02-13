@@ -24,7 +24,7 @@ export default async function Home() {
         <div className="lg:text-5xl font-bold text-center text-4xl">
           Create Notes <span className="text-primary">With Ease</span>
         </div>
-        <div className="lg:w-2/5 w-4/5 text-center lg:text-base text-xs font-light">
+        <div className="lg:w-2/5 w-4/5 text-center text-muted-foreground lg:text-base text-xs font-normal">
           Streamline Your Workflow with Effortless Note Creation - Elevate
           Productivity, Stay Organized, and Focus on What Matters Most.
         </div>
