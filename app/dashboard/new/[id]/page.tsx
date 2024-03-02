@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
-import { redirect, useParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import prisma from "@/app/lib/db";
@@ -40,8 +40,6 @@ const page = async ({ params }: any) => {
   const note = await findNote(params.id, user?.id as string);
 
   const updateNote = async (formData: FormData) => {
-    "use server";
-
     const title = formData.get("title");
     const description = formData.get("description");
 
