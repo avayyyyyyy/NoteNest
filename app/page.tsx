@@ -50,7 +50,7 @@ export default async function Home() {
       </section>
       <div className="hidden rounded-t-lg lg:flex relative justify-center">
         <Image
-          className=" pt-5 pl-5 pr-5 bg-primary-foreground  rounded-t-lg absolute"
+          className=" pt-5 pl-5 pr-5 bg-primary-foreground grayscale brightness-[140%] rounded-t-lg absolute"
           alt={"Home Page Image"}
           width={1000}
           height={1000}
