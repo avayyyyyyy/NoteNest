@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
 import DasboardNav from "@/components/DasboardNav";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 import prisma from "../lib/db";
 import { stripe } from "../lib/stripe";
 
