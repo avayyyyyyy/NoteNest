@@ -1,5 +1,7 @@
 import { BorderBeam } from "@/components/magicui/border-beam";
 import DotPattern from "@/components/magicui/dot-pattern";
+import RadialGradient from "@/components/magicui/linear-gradient";
+import LinearGradient from "@/components/magicui/linear-gradient";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
@@ -70,6 +72,7 @@ export default async function Home() {
             "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)] opacity-50 "
           )}
         />
+          <RadialGradient className="opacity-15 z-10 hidden lg:block" />
       </section>
     </>
   );
