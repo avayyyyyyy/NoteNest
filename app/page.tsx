@@ -63,7 +63,7 @@ export default async function Home() {
             alt={"Home Page Image"}
             width={1000}
             height={1000}
-            src={"/abhi-saas.webp"}
+            src={"/notenest.webp"}
           />
           <BorderBeam size={400} duration={12} delay={9} />
         </div>
