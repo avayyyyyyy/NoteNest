@@ -1,7 +1,10 @@
+import { BorderBeam } from "@/components/magicui/border-beam";
+import DotPattern from "@/components/magicui/dot-pattern";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { Github, Linkedin } from "lucide-react";
+import { ChevronRight, Github, Linkedin, SquarePen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -18,45 +21,56 @@ export default async function Home() {
   return (
     <>
       <section className="flex mb-7 lg:h-auto  lg:overflow-y-hidden lg:overflow-hidden space-y-6 flex-col justify-center lg:flex lg: lg:mt-28 h-[90vh]  items-center">
-        <div className="px-4 text-xs lg:text-base py-2 rounded-full bg-secondary text-primary">
-          Sort Your Notes Easily
+        <div className="px-4 text-xs lg:text-sm  flex z-20  gap-2 items-center  py-2 rounded-full bg-secondary text-primary">
+          Sort Your Notes Easily <SquarePen size={16} />
         </div>
-        <div className="lg:text-5xl font-bold text-center text-4xl">
-          Create Notes <span className="text-primary">With Ease</span>
+        <div className="lg:text-5xl z-20  font-bold text-center text-4xl">
+          Create Notes <span className="text-primary">With Ease!</span>
         </div>
-        <div className="lg:w-2/5 w-4/5 text-center text-muted-foreground lg:text-base text-xs font-normal">
+        <div className="lg:w-2/5 z-20  w-4/5 text-center text-muted-foreground lg:text-base text-xs font-normal">
           Streamline Your Workflow with Effortless Note Creation - Elevate
           Productivity, Stay Organized, and Focus on What Matters Most.
         </div>
         <RegisterLink>
-          <Button className="min-w-60">Get Started</Button>
+          <Button className="min-w-60 z-20 ">
+            Get Started{" "}
+            <span>
+              <ChevronRight />
+            </span>
+          </Button>
         </RegisterLink>
-        <div className="flex space-x-3">
+        <div className="flex z-20  space-x-3">
           <Link
-            className="p-2 rounded-full bg-primary-foreground"
+            className="p-2 rounded-full bg-primary-foreground/10"
             target="_blank"
             href={"https://github.com/avayyyyyyy/"}
           >
-            <Github />
+            <Github className="text-primary" />
           </Link>
           <Link
-            className="p-2 rounded-full bg-primary-foreground"
+            className="p-2 rounded-full bg-primary-foreground/10"
             target="_blank"
             href={"https://www.linkedin.com/in/shubhcodes/"}
           >
-            <Linkedin />
+            <Linkedin className="text-primary" />
           </Link>
         </div>
-      </section>
-      <div className="hidden rounded-t-lg lg:flex relative justify-center">
-        <Image
-          className=" pt-5 pl-5 pr-5 bg-primary-foreground grayscale brightness-[140%] rounded-t-lg absolute"
-          alt={"Home Page Image"}
-          width={1000}
-          height={1000}
-          src={"/hompage-cropped.webp"}
+        <div className="rounded-lg z-20 relative lg:flex justify-center hidden">
+          <Image
+            className=" rounded-lg bg-primary-foreground"
+            alt={"Home Page Image"}
+            width={1000}
+            height={1000}
+            src={"/abhi-saas.webp"}
+          />
+          <BorderBeam size={400} duration={12} delay={9} />
+        </div>
+        <DotPattern
+          className={cn(
+            "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)] opacity-50 "
+          )}
         />
-      </div>
+      </section>
     </>
   );
 }
