@@ -59,8 +59,10 @@ export default async function Home() {
         </div>
         <div className="rounded-lg z-20 relative lg:flex justify-center hidden">
           <Image
-            className=" rounded-lg bg-primary-foreground"
-            alt={"Home Page Image"}
+            className="rounded-lg bg-primary-foreground"
+            alt={
+              "https://utfs.io/f/c8a555e4-dcdf-459f-9522-ff8d8be09823-q5tp3e.webp"
+            }
             width={1000}
             height={1000}
             src={"/notenest.webp"}
@@ -72,7 +74,7 @@ export default async function Home() {
             "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)] opacity-50 "
           )}
         />
-          <RadialGradient className="opacity-15 z-10 hidden lg:block" />
+        <RadialGradient className="opacity-15 z-10 hidden lg:block" />
       </section>
     </>
   );
