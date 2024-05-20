@@ -60,12 +60,12 @@ export default async function Home() {
         <div className="rounded-lg z-20 relative lg:flex justify-center hidden">
           <Image
             className="rounded-lg bg-primary-foreground"
-            alt={
-              "https://utfs.io/f/c8a555e4-dcdf-459f-9522-ff8d8be09823-q5tp3e.webp"
-            }
+            alt={""}
             width={1000}
             height={1000}
-            src={"/notenest.webp"}
+            src={
+              "https://utfs.io/f/c8a555e4-dcdf-459f-9522-ff8d8be09823-q5tp3e.webp"
+            }
           />
           <BorderBeam size={400} duration={12} delay={9} />
         </div>
